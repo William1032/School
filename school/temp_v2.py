@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+import all_constants as c
 
 
 class Converter():
@@ -31,8 +32,8 @@ class Converter():
 
         #errors
         error = "Please enter a valid number"
-        self.temp_error = Label(self.temp_frame, text=error, fg="#9C0000")
-        self.temp_error.grid(row=3)
+        self.answer_error = Label(self.temp_frame, text=error, fg="#9C0000", font=("Arial", "14", "bold"))
+        self.answer_error.grid(row=3)
 
         #conversion, help, and history
         self.button_frame = Frame(self.temp_frame)
@@ -40,8 +41,8 @@ class Converter():
 
         #button list (text/bg color/command/row/column)
         button_details_list = [
-            ["To Celsius", "#990099", "", 0, 0],
-            ["To Fahrenheit", "#009900", "", 0, 1],
+            ["To Celsius", "#990099", lambda:self.check_temp(c.ABS_ZERO_FAHRENHEIT), 0, 0],
+            ["To Fahrenheit", "#009900", lambda:self.check_temp(c.ABS_ZERO_CELSIUS), 0, 1],
             ["Info / Help", "#CC6600", "", 1, 0],
             ["History / Export", "#004C99", "", 1, 1]
         ]
@@ -49,11 +50,30 @@ class Converter():
         #hold the buttons
         self.button_ref_list = []
 
+        #create buttons
         for item in button_details_list:
             self.make_button = Button(self.button_frame, text=item[0], bg=item[1], fg="#FFFFFF", font=("Arial", "12", "bold"),
                                        width=12, command=item[2])
             self.make_button.grid(row=item[3], column=item[4], padx=5, pady=5)
 
+            self.button_ref_list.append(self.make_button)
+
+        self.to_history_button = self.button_ref_list[3].config(state=DISABLED)
+        
+    def check_temp(self,min_temp):
+        print("Min Temp: ", min_temp)
+
+        to_convert = self.temp_entry.get()
+        print("to convert", to_convert)
+
+        try:
+            to_convert = float(to_convert)
+            if to_convert >= min_temp:
+                self.answer_error.config(text="Temperature Accepted")
+            else:
+                self.answer_error.config(text="Temperature too low")
+        except ValueError:
+            self.answer_error.config(text="Temperature invalid")
         
 
 # main routine

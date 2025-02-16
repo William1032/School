@@ -63,17 +63,24 @@ class Converter():
     def check_temp(self,min_temp):
         print("Min Temp: ", min_temp)
 
+        #get input
         to_convert = self.temp_entry.get()
         print("to convert", to_convert)
+
+        #reset label and entry box in case of error
+        #self.answer_error.config(fg="#004C99", font=("Arial", "13", "bold"))
+        self.temp_entry.config(bg="#FFFFFF")
+
+        error = f"Enter a number greater than or equal to {min_temp}"
 
         try:
             to_convert = float(to_convert)
             if to_convert >= min_temp:
-                self.answer_error.config(text="Temperature Accepted")
+                self.answer_error.config(text="Temperature Accepted", fg="#004C99", font=("Arial", "13", "bold"))
             else:
-                self.answer_error.config(text="Temperature too low")
+                self.answer_error.config(text=error, fg="#9C0000", font=("Arial", "14", "bold"))
         except ValueError:
-            self.answer_error.config(text="Temperature invalid")
+            self.answer_error.config(text="Temperature Invalid", fg="#9C0000", font=("Arial", "14", "bold"))
         
 
 # main routine

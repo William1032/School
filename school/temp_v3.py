@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 import all_constants as c
+import conv_round as cr
 
 
 class Converter():
@@ -10,6 +11,9 @@ class Converter():
 
     def __init__(self):
         
+
+        #calc list
+        self.all_calculations_list = []
         """
         temperature conversion gui
         """
@@ -58,7 +62,8 @@ class Converter():
 
             self.button_ref_list.append(self.make_button)
 
-        self.to_history_button = self.button_ref_list[3].config(state=DISABLED)
+        self.to_history_button = self.button_ref_list[3]
+        self.to_history_button.config(state=DISABLED)
         
     def check_temp(self,min_temp):
         print("Min Temp: ", min_temp)
@@ -84,11 +89,19 @@ class Converter():
         
 
         #convert
-        def convert(self, min_temp, to_convert):
-            if min_temp == c.ABS_ZERO_CELSIUS:
-                self.answer_error.config(text=f"Converting {to_convert} °C to °F")
-            else:
-                self.answer_error.config(text=f"Converting {to_convert} °F to °C")
+    def convert(self, min_temp, to_convert):
+        if min_temp == c.ABS_ZERO_CELSIUS:
+            answer = cr.to_fahrenheit(to_convert)
+            answer_statement = f"{to_convert} °C is {answer} °F"
+        else:
+            answer = cr.to_celsius(to_convert)
+            answer_statement = f"{to_convert} °F is {answer} °C"
+
+        self.to_history_button.config(state=NORMAL)
+        self.answer_error.config(text=answer_statement)
+        self.all_calculations_list.append(answer)
+        print(self.all_calculations_list)
+    
 
 # main routine
 if __name__ == "__main__":

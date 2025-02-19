@@ -1,5 +1,4 @@
 from tkinter import *
-import random
 import all_constants as c
 import conv_round as cr
 

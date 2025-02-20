@@ -47,7 +47,7 @@ class Converter():
             ["To Celsius", "#990099", lambda:self.check_temp(c.ABS_ZERO_FAHRENHEIT), 0, 0],
             ["To Fahrenheit", "#009900", lambda:self.check_temp(c.ABS_ZERO_CELSIUS), 0, 1],
             ["Info / Help", "#CC6600", "", 1, 0],
-            ["History / Export", "#004C99", "", 1, 1]
+            ["History / Export", "#004C99", lambda:self.history(self.all_calculations_list), 1, 1]
         ]
 
         #hold the buttons
@@ -63,13 +63,13 @@ class Converter():
 
         self.to_history_button = self.button_ref_list[3]
         self.to_history_button.config(state=DISABLED)
+
+    
         
     def check_temp(self,min_temp):
-        print("Min Temp: ", min_temp)
 
         #get input
         to_convert = self.temp_entry.get()
-        print("to convert", to_convert)
 
         #reset label and entry box in case of error
         self.answer_error.config(fg="#004C99", font=("Arial", "13", "bold"))
@@ -99,8 +99,10 @@ class Converter():
         self.to_history_button.config(state=NORMAL)
         self.answer_error.config(text=answer_statement)
         self.all_calculations_list.append(answer)
-        print(self.all_calculations_list)
     
+    def history(self, list):
+        history_statement = str(list).strip("[]").replace("'", "")
+        self.answer_error.config(text=history_statement, wraplength=250)
 
 # main routine
 if __name__ == "__main__":
